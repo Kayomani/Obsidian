@@ -1,0 +1,25 @@
+.mumble_server {
+    text-align: left;
+}
+.mumble_line {
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    white-space: nowrap;
+    font-family: Tahoma, Helvetica;
+    font-size: 12px;
+    line-height: 16px;
+    vertical-align: top;
+}
+.mumble_line img {
+    vertical-align: top;
+}
+mumble_server * img {
+    border-style: none;
+}
+mumble_server * a {
+    white-space: nowrap;
+    font-family: Tahoma, Helvetica;
+    font-size: 12px;
+    text-decoration: underline;
+}

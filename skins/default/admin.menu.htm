@@ -1,0 +1,43 @@
+
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=gameslist">Regenerate games list</a></li>
+		<li><a href="?page=permissions">Permisions</a></li>
+		<li><a href="?page=sync">Repull all steam data</a></li>
+		<li><a href="?page=systemlogs">System Logs</a></li>
+</ul>
+<h2>Admin Area</h2>  
+
+
+<h3>Lan list</h3>
+
+<a href="?page=editlan">Create LAN</a>
+<table class="otable">
+<thead>
+<tr>
+ <th>Name</th>
+ <th>Enabled</th>
+ <th>Start</th>
+ <th>End</th>
+ <th>Announced Places</th>
+ <th>Seats</th>
+ <th>Seating designer</th>
+ <th>Attendance</th>
+ <th>Details</th>
+</tr>
+</thead>
+{section name=mysec loop=$lans}
+{strip}
+   <tr>
+      <td>{$lans[mysec]->name}</td>
+      <td>{if $lans[mysec]->enabled eq '1'}Yes{else}No{/if}</td>
+      <td>{$lans[mysec]->start}</td>
+      <td>{$lans[mysec]->end}</td>
+      <td>{$lans[mysec]->places}</td>
+      <td>{$lans[mysec]->true_seats}</td>
+      <td><a href="?page=seatingadmin&id={$lans[mysec]->id}">Edit Layout</a></td>
+      <td><a href="?page=attendanceadmin&id={$lans[mysec]->id}">Edit Attendance</a></td>
+      <td><a href="?page=editlan&id={$lans[mysec]->id}">Edit</a></td>
+   </tr>
+{/strip}
+{/section}
+</table>

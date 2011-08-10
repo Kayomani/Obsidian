@@ -1,0 +1,293 @@
+<STYLE type="text/css">
+.serverlistmap {
+	padding: 0px;
+	height: 60px;
+}
+
+.serverlistinfo {
+	color: #BBB;
+	padding-left: 15px;
+}
+
+.serverlistrow {
+	height: 100px;
+}
+
+.serverlistrowtable {
+	min-width: 650px;
+	line-height: 1.0;
+}
+
+.serverlistplayertable {
+	background-color: #888;
+	border: 2px solid black;
+	z-index: 500;
+	display: none;
+	position: static;
+	right: 30%;
+	color: white;
+	vertical-align: top;
+}
+
+.serverlistplayertable td,.serverlistplayertable th {
+	padding-left: 5px;
+}
+
+.serverlistinfocol {
+	width: 170px;
+	overflow: visible;
+}
+
+.serverlistmaincol {
+	width: 450px;
+	overflow: hidden;
+}
+</STYLE>
+<script type="text/javascript">
+<!--
+
+function ShowHide(id,hide){
+
+	var div = jQuery("#" +id);
+	if(null!=div)
+	{
+		if(hide)
+		{
+		  div.css("display","none");	
+		}
+		else
+		{
+			 div.css("display","block");	
+		}
+	}
+}
+
+//-->
+</script>
+{if $hasoffical}
+<h2>Official Servers</h2>
+<div style="text-align: left; padding-left: 100px">{section
+name=count loop=$servers} {if $servers[count]->type == '1'}
+<table style="width: auto">
+	<tr>
+		<td><img class="serverlistmap"
+			src="{$webPath}{$servers[count]->icon}" /></td>
+		<td>
+
+		<table class="serverlistrowtable">
+			<tr>
+				<td rowspan="4"></td>
+				<td class="serverlistinfocol">
+				<div><span class="serverlistinfo">Ping:</span> {if
+				$servers[count]->ping == '-1'} <span style="color: red;">Offline</span>
+				{else} <span style="color: green;">{$servers[count]->ping}ms</span>
+				{/if}</div>
+				</td>
+				<td class="serverlistmaincol"><span class="serverlistinfo">Game:</span>
+				{$servers[count]->gamename}</td>
+			</tr>
+			<tr>
+				<td><span class="serverlistinfo">Players:</span>
+				{$servers[count]->playercount}/{$servers[count]->maxplayers}</td>
+				<td><span class="serverlistinfo">Hostname:</span>{if $servers[count]->hostnameoverride}{$servers[count]->hostnameoverride}{else}{$servers[count]->hostname}{/if}</td>
+				<td><span class="serverlistinfo"
+					onmouseover="ShowHide('playerinfo-{$servers[count]->server_id}',false); return false;"
+					onmouseout="ShowHide('playerinfo-{$servers[count]->server_id}',true); return false;">
+					<a href="?page=serverlist&action=showplayers&sid={$servers[count]->server_id}">Show players</a></span></td>
+			</tr>
+			<tr>
+				<td><span class="serverlistinfo">Map:</span>
+				{$servers[count]->map}</td>
+				<td><span class="serverlistinfo">Address:</span> <a
+					href="steam://connect/{$servers[count]->address}:{$servers[count]->cport}">{$servers[count]->address}:{$servers[count]->cport}</a>
+				{if $servers[count]->server_id > 0}<span class="serverlistinfo">Dedicated:</span> {if
+				$servers[count]->dedicated == '1'}Yes{else}No{/if}{/if}</td>
+				<td>
+				  {if $servers[count]->server_id > 0}
+				  <span class="serverlistinfo"><a href="?page=editserver&sid={$servers[count]->server_id}">Edit server</a></span>
+				  {else}
+				   <span class="serverlistinfo">Autoscan Server</span>
+				  {/if}
+				</td>
+			</tr>
+		</table>
+
+		</td>
+	</tr>
+</table>
+<div id="playerinfo-{$servers[count]->server_id}" class="serverlistplayertable" {if $forceshowplayers== $servers[count]->server_id}style="display:block"{/if}>
+<table>
+<tr>
+<td style="vertical-align: top">
+<table style="width:auto">
+	<thead>
+		<th>Username</th>
+		<th>Score</th>
+	</thead>
+	{section name=count2 loop=$userlist[count]}
+	<tr>
+		<td>{$userlist[count][count2]->name}</td>
+		<td>{$userlist[count][count2]->score}</td>
+	</tr>
+	{/section}
+</table>
+</td>
+<td style="vertical-align: top">
+<table>
+	<thead>
+		<th>Server variable</th>
+		<th>Value</th>
+	</thead>
+	{foreach from=$variablelist[count] key=k item=v}
+	<tr>
+		<td>{$k}</td>
+		<td>{$v}</td>
+	</tr>
+	{/foreach}
+</table>
+</td>
+</tr>
+</table>
+</div>
+{/if} {/section}</div>
+{/if} {if $hasunofficial}
+<h2>Other Servers</h2>
+
+<div style="text-align: left; padding-left: 100px">{section
+name=count loop=$servers} {if $servers[count]->type != '1'}
+<table style="width: auto">
+	<tr>
+		<td><img class="serverlistmap"
+			src="{$webPath}{$servers[count]->icon}" /></td>
+		<td>
+
+		<table class="serverlistrowtable">
+			<tr>
+				<td rowspan="4"></td>
+				<td class="serverlistinfocol">
+				<div><span class="serverlistinfo">Ping:</span> {if
+				$servers[count]->ping == '-1'} <span style="color: red;">Offline</span>
+				{else} <span style="color: green;">{$servers[count]->ping}ms</span>
+				{/if}</div>
+				</td>
+				<td class="serverlistmaincol"><span class="serverlistinfo">Game:</span>
+				{$servers[count]->gamename}</td>
+			</tr>
+			<tr>
+				<td><span class="serverlistinfo">Players:</span>
+				{$servers[count]->playercount}/{$servers[count]->maxplayers}</td>
+				<td><span class="serverlistinfo">Hostname:</span>{if $servers[count]->hostnameoverride}{$servers[count]->hostnameoverride}{else}{$servers[count]->hostname}{/if}</td>
+				<td><span class="serverlistinfo"
+					onmouseover="ShowHide('playerinfo-{$servers[count]->server_id}',false); return false;"
+					onmouseout="ShowHide('playerinfo-{$servers[count]->server_id}',true); return false;">
+					<a href="?page=serverlist&action=showplayers&sid={$servers[count]->server_id}">Show players</a></span></td>
+			</tr>
+			<tr>
+				<td><span class="serverlistinfo">Map:</span>
+				{$servers[count]->map}</td>
+				<td><span class="serverlistinfo">Address:</span> <a
+					href="steam://connect/{$servers[count]->address}:{$servers[count]->cport}">{$servers[count]->address}:{$servers[count]->cport}</a>
+				{if $servers[count]->server_id > 0}<span class="serverlistinfo">Dedicated:</span> {if
+				$servers[count]->dedicated == '1'}Yes{else}No{/if}{/if}</td>
+				<td>
+				  {if $servers[count]->server_id > 0}
+				  <span class="serverlistinfo"><a href="?page=editserver&sid={$servers[count]->server_id}">Edit server</a></span>
+				  {else}
+				   <span class="serverlistinfo">Autoscan Server</span>
+				  {/if}
+				</td>
+			</tr>
+		</table>
+
+		</td>
+	</tr>
+</table>
+<div id="playerinfo-{$servers[count]->server_id}" class="serverlistplayertable" {if $forceshowplayers== $servers[count]->server_id}style="display:block"{/if}>
+<table>
+<tr>
+<td style="vertical-align: top">
+<table style="width:auto">
+	<thead>
+		<th>Username</th>
+		<th>Score</th>
+	</thead>
+	{section name=count2 loop=$userlist[count]}
+	<tr>
+		<td>{$userlist[count][count2]->name}</td>
+		<td>{$userlist[count][count2]->score}</td>
+	</tr>
+	{/section}
+</table>
+</td>
+<td style="vertical-align: top">
+<table>
+	<thead>
+		<th>Server variable</th>
+		<th>Value</th>
+	</thead>
+	{foreach from=$variablelist[count] key=k item=v}
+	<tr>
+		<td>{$k}</td>
+		<td>{$v}</td>
+	</tr>
+	{/foreach}
+</table>
+</td>
+</tr>
+</table>
+</div>
+{/if} {/section}</div>
+{/if}
+<br />
+<br />
+<br />
+<br />
+<br />
+{if $scanmod}
+<div style="text-align:center">LAN server autoscan last done: {$scanmod} seconds ago.</div>
+{/if}
+<hr />
+<br />
+{if $valerror}
+<div class="error">{$valerror}</div>
+{/if}
+{if CheckPermission("admin","view admin menu")}
+<form action="?page=serverlist&action=validate" method="post">
+<fieldset><legend>Add server</legend>
+<table style="width: auto">
+	<tr>
+		<td>Protocol:</td>
+		<td><select name="protocol">
+			{foreach from=$gameslist key=k item=v}
+			<option {if $k== "source" and $protocol== ""}selected{/if} 
+                    {if $k==$protocol}selected{/if}  value="{$k}">{$v}</option>
+			{/foreach}
+		</select></td>
+	</tr>
+	<tr>
+		<td style="width: 100px">Address</td>
+		<td><input style="width: 150px; margin: 0px;" type="text"
+			name="address" value="{$address}"></input></td>
+	</tr>
+
+	<tr>
+		<td>Port</td>
+		<td><input style="width: 80px; margin: 0px;" type="text" name="port" value="{$cport}"></input></td>
+	</tr>
+
+	<tr>
+		<td>Query Port</td>
+		<td><input style="width: 80px; margin: 0px;" type="text" name="qport" value="{$qport}"></input> <span style="color: grey"> < You can
+		normally leave this blank!</span></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" name="Update" value="Validate"></td>
+	</tr>
+</table>
+
+
+
+</fieldset>
+</form>
+{/if}

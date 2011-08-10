@@ -1,0 +1,235 @@
+.tticon {
+	padding: 1px;
+	width: 120px;
+	text-align: center;
+}
+
+.ttelement { /** width:100%;
+ height:130px;
+ border:2px outset grey;
+ display: block;
+ position: relative;*/
+	background-color: #F5F5F5;
+	margin-top: 2px;
+}
+
+.ttelementOdd { /** width:100%;
+ height:130px;
+ border:2px outset grey;
+ display: block;
+ position: relative;
+ background-color:#F5F5F5;*/
+	margin-top: 2px;
+}
+
+.ttwhen {
+	line-height: 3em;
+	padding-left: 5px;
+}
+
+.tttitle {
+	position: absolute;
+	left: 200px;
+	display: inline;
+	line-height: 3em;
+	font-weight: bold;
+}
+
+.ttetop {
+	position: absolute;
+	right: 20px;
+	display: inline;
+}
+
+.ttebot {
+	position: absolute;
+	right: 20px;
+	display: inline;
+	top: 17px;
+}
+
+.ttaligntop {
+	text-align: top;
+}
+
+#filecontainer {
+	background: #555555;
+	border: 1px solid darkGray;
+	padding: 10px;
+        
+        text-decoration:none;
+}
+
+#filecontainer  a{       
+        text-decoration:none;
+}
+
+#filepath {
+	background: #333333;
+	border: 1px solid darkGray;
+	padding: 10px;
+	border-bottom: none;
+        text-decoration:none;
+}
+
+.ttsmallelement{
+width:100%;
+height:60px;
+margin:0px;
+}
+
+.ttbigelement{
+width:100%;
+height:110px;
+margin:0px;
+}
+
+.tttimecolumn{
+  width:130px;
+  padding:10px;
+}
+
+.tttimehead{
+  font-size:15px;
+  font-weight:bold
+}
+
+.tttimeheadbig{
+  font-size:19px;
+  font-weight:bold
+}
+
+.tteventname{
+  font-size:14px;
+  font-weight:bold;
+  font-style:italic;
+}
+
+.ttusercolumn{
+  padding:0px;
+  margin:0px;
+  width:30%;
+  min-width:200px;
+}
+
+.tticonimg {
+  width:110px;
+  height:110px;
+}
+
+.tticonimgsmall {
+  width:60px;
+  height:60px;
+}
+
+.ttstartend {
+  width: auto;
+  min-width:400px;
+}
+
+.center {
+  text-align:center;
+}
+
+
+ /* style for XHTML_Text */
+        table.var_dump          { border-collapse:separate; border:1px solid black; border-spacing:0; }
+        table.var_dump tr       { color:#006600; background:#F8F8F8; vertical-align:top; }
+        table.var_dump tr.alt   { color:#006600; background:#E8E8E8; }
+        table.var_dump th       { padding:4px; color:black; background:#CCCCCC; text-align:left; }
+        table.var_dump td       { padding:4px; }
+        table.var_dump caption  { caption-side:top; color:white; background:#339900; }
+        table.var_dump i        { color: #000000; background: transparent; font-style: normal; }
+
+        /* style for XHTML_Text */
+        pre.var_dump            { line-height:1.8em; }
+        pre.var_dump span.type  { color:#006600; background:transparent; }
+        pre.var_dump span.value { padding:2px; color:#339900; background:#F0F0F0; border: 1px dashed #CCCCCC; }
+
+
+ul.jd_menu_slate {
+	height: 19px;
+	background-color: #DDF;
+	background: url(../images/gradient.png) repeat-x;
+	border: 1px solid #70777D;
+	border-top: 1px solid #A5AFB8;
+	border-left: 1px solid #A5AFB8;
+	margin:0px;
+	padding:2px;
+	margin-bottom:5px;
+}
+
+ul.jd_menu_vertical {
+	width: 200px;
+	height: auto;
+	background: url(images/gradient-vertical.png) repeat-x;
+	background-color: #A5AFB8;
+}
+
+
+ul.jd_menu_slate a, 
+ul.jd_menu_slate a:active,
+ul.jd_menu_slate a:link,
+ul.jd_menu_slate a:visited {
+	text-decoration: none;
+	color: #FFF;
+}
+ul.jd_menu_slate ul li a,
+ul.jd_menu_slate ul li a:active,
+ul.jd_menu_slate ul li a:link,
+ul.jd_menu_slate ul li a:visited {
+	color: #70777D;
+}
+ul.jd_menu_slate li {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	padding: 2px 6px 4px 6px;
+	cursor: pointer;
+	white-space: nowrap;
+	color: #FFF;
+	display:inline;
+}
+ul.jd_menu_slate li.jd_menu_active_menubar,
+ul.jd_menu_slate li.jd_menu_hover_menubar {
+	padding-left: 5px;
+	border-left: 1px solid #ABB5BC;
+	padding-right: 5px;
+	border-right: 1px solid #929AA1;
+	border-right: 1px solid #70777D;
+	color: #FFF;
+	background: url(../images/gradient-alt.png) repeat-x;
+}
+
+ul.jd_menu_vertical li.jd_menu_active_menubar,
+ul.jd_menu_vertical li.jd_menu_hover_menubar {
+	padding-left: 6px;
+	padding-top: 1px;
+	border-top: 1px solid #70777D;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+ul.jd_menu_slate ul {
+	background: #ABB5BC;
+	border: 1px solid #70777D;
+}
+ul.jd_menu_slate ul li {
+	padding: 3px 10px 3px 4px;
+	background: #E6E6E6;
+	border: none;
+	color: #70777D;
+}
+ul.jd_menu_slate ul li.jd_menu_active,
+ul.jd_menu_slate ul li.jd_menu_hover {
+	background: url(../images/gradient.png) repeat-x;
+	padding-top: 2px;
+	border-top: 1px solid #ABB5BC;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #929AA1;
+	color: #FFF;
+}
+ul.jd_menu_slate ul li.jd_menu_active a.jd_menu_active,
+ul.jd_menu_slate ul li.jd_menu_hover a:hover {
+	color: #00;
+}
+

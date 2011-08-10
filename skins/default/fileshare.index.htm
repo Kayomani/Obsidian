@@ -1,0 +1,88 @@
+<script type="text/javascript" src="{$webPath}libs/uploadify/jquery-1.3.2.min.js"></script> 
+<script type="text/javascript" src="{$webPath}libs/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="{$webPath}libs/uploadify/jquery.uploadify.v2.1.0.min.js"></script>
+<link rel = "stylesheet" href = "{$webPath}libs/uploadify/uploadify.css" type = "text/css" media = "screen, projection"/>
+ 
+<script type="text/javascript"> 
+
+var uploadcount = 0;
+
+function complete(e,q,f,r,d){
+	uploadcount--;
+	if(uploadcount==0){
+     location.reload(true)
+	}
+}
+
+function uploadstart() {
+	uploadcount++;
+}
+
+
+
+$(document).ready(function() { 
+  $('#uploadify').uploadify({ 
+    'uploader':  '{$webPath}libs/uploadify/uploadify.swf', 
+    'script':    'index.php?page=fileshare', 
+    'folder':    '/{$fs_folder}', 
+    'cancelImg': '{$webPath}libs/uploadify/cancel.png',
+    'multi': 'true',
+    'auto': true,
+    'onOpen': uploadstart,
+    'onComplete': complete
+}); 
+}); 
+</script> 
+
+{if $fs_header_html}
+<div class="notice">{$fs_header_html}</div>
+{/if}
+<div id="filepath">
+{$fs_folder_raw}
+</div>
+<div id="filecontainer">
+{section name=c loop=$folderlist}
+{strip}
+<div>
+ <a href="?page=fileshare&folder={$folderlist[c]->encodedName()}"><span><img src="{$webPath}images/files/folder.png" style="width:20px;height:20px;padding-right:5px" /></span>{$folderlist[c]->directory}</a> 
+</div>
+{/strip}
+{/section}
+{section name=c loop=$filelist}
+{strip}
+<div>
+ <a href="{$webPath}files/{$filelist[c]->path}">
+   <span>
+     <img src="{$webPath}images/files/{$filelist[c]->image}" style="width:20px;height:20px;padding-right:5px" />
+   </span>
+   {$filelist[c]->name}</a>
+   <a href="ftp://kami/{$filelist[c]->path}"><img src="{$webPath}images/files/ftp.png" style="width:20px;height:20px;padding-left:5px;padding-right:5px" /></a>
+   {$filelist[c]->size}
+</div>
+{/strip}
+{/section}
+</div>
+<br />
+<!--<fieldset>
+<legend>Upload files</legend>
+<div>This web based utility supports files up to 2GB, alternatively you can access a samba based share at \\yui\fileshare\</div>
+<br />
+<div id="fileQueue"></div>
+<input type="file" name="uploadify" id="uploadify" />
+<p><a href="javascript:jQuery('#uploadify').uploadifyClearQueue()">Cancel All Uploads</a></p>
+</fieldset>
+-->
+{if strlen($fs_folder_raw)!=0}
+<form action="?page=fileshare&folder={$fs_folder}&action=setinfo" method="post">
+<fieldset>
+<legend>Set info for this page.</legend>
+<div style="float:left;padding-right:10px;">Text to display:</div> 
+<div><textarea name="info" style="width:80%;height:140px">{$fs_header}</textarea></div>
+<div style="text-align:center"><input type="submit" value="Update" /></div>
+</fieldset>
+</form>
+{/if}
+
+
+
+<div style="text-align: center">Free space available: {$fs_freespace}.</div>

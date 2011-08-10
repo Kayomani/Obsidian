@@ -1,0 +1,22 @@
+<Timetable>
+{section name=ce loop=$events}
+{if $events[ce]->type == 'game'}
+  <Event>
+   <ID>{$events[ce]->id}</ID>
+   <When>{$events[ce]->occurs}</When>
+   <Title>{if $events[ce]->game_game_id == "0"}{base64_encode($events[ce]->othergame)}{else}{base64_encode($events[ce]->game_name)}{/if}</Title>
+   <Subtitle>{base64_encode($events[ce]->eventname)}</Subtitle>
+   <Image>{$webPath}images/games/{$events[ce]->game_picture}</Image>
+  </Event>
+{/if}
+{if $events[ce]->type == 'food' or $events[ce]->type == 'other'}
+  <Event>
+   <ID>{$events[ce]->id}</ID>
+   <When>{$events[ce]->occurs}</When>
+   <Title>{if $events[ce]->type == 'food'}{base64_encode("Food Run")}{else}{base64_encode("Event")}{/if}</Title>
+   <Subtitle>{base64_encode($events[ce]->eventname)}</Subtitle>
+   <Image></Image>
+  </Event>
+{/if}
+{/section}
+</Timetable>

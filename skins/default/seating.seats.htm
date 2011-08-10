@@ -1,0 +1,190 @@
+<link rel="stylesheet" href="{$webPath}css/muffin.css" type="text/css" media="all" />
+<style type="text/css">
+
+
+th { width:120px;}
+td { text-align:center;}
+#message { 
+background-color:#307BC0;
+border:1px solid black;
+margin:20px;
+padding:20px;
+width:70%;
+color:white;
+}
+</style>
+<script type="text/javascript" src="{$webPath}js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="{$webPath}js/seatpopup.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="{$webPath}css/seats.css" />
+<style type="text/css">
+
+.seatinfo {
+ display: none;
+ height: 28px;
+ z-index: 100;
+ background-color: #000000;
+}
+
+.seatinfo:hover {
+ display:block;
+ height: 28px;
+ z-index: 100;
+ background-color: #000000;
+}
+.seatbox
+{
+    width:30px;
+    height:30px;
+    background-color:Black
+}
+
+.seatboxHover
+{
+   display:none;  
+   position:absolute;
+   border-style: solid;
+   background-color: white;
+   padding: 5px;
+   z-index: 500;
+   width: 200px;
+   color:black;
+}
+
+</style>
+
+
+
+{if $message}
+<center>
+<div id="message">
+{$message}
+</div>
+</center>
+{/if}
+{if $state eq 'noseat'}
+<center>You are signed up to this LAN but haven't selected a seat, click one below!</center>
+{/if}
+<center>
+<div class="seating" style="position:relative;background-image:url('{$webPath}{$img}');{$size}">
+
+
+
+
+
+
+{section name=mysec loop=$attendees}
+{strip}
+
+{if $attendees[mysec]->type eq '0' && $attendees[mysec]->user_id eq '0'}
+<div class="freeseat" style="top: {$attendees[mysec]->y}px; left: {$attendees[mysec]->x}px;" title="Available">
+{if $state eq 'noseat'}
+<a href="?page=seating&action=sit&seat={$attendees[mysec]->id}">
+{/if}
+{if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if}
+</div>
+{if $state eq 'noseat'}
+</a>
+{/if}
+{/if}
+{if $attendees[mysec]->type eq '1' && $attendees[mysec]->user_id eq '0'}
+<div class="staffseat" style="top: {$attendees[mysec]->y}px; left: {$attendees[mysec]->x}px;" title="Staff only">
+{if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if}
+</div>
+{/if}
+{if $attendees[mysec]->type eq '2' && $attendees[mysec]->user_id eq '0'}
+<div class="disabledseat" style="top: {$attendees[mysec]->y}px; left: {$attendees[mysec]->x}px;" title="Disabled">
+{if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if}
+</div>
+{/if}
+{if $attendees[mysec]->user_id neq '0'}
+<div class="takenseat" style="top: {$attendees[mysec]->y}px; left: {$attendees[mysec]->x}px;" title="" 
+     onmouseout="HideContent('seatinfo{$attendees[mysec]->id}'); return true;" onmouseover="ShowContent('seatinfo{$attendees[mysec]->id}'); return true;"
+     onmousemove="ShowContent('seatinfo{$attendees[mysec]->id}'); return true;">
+ {if $attendees[mysec]->user_id eq $userid}
+  <div style="font-size: 10pt;"><a href="?page=seating&action=unsit">You</a>
+    <div id="seatinfo{$attendees[mysec]->id}" class="seatboxHover">
+      Seat: {if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if} taken by you [Click to remove your selection]
+     </div>
+  </div>
+ {else}
+ {if $attendees[mysec]->seat_name eq ''}
+   {$attendees[mysec]->id}
+ {/if}
+ {if $attendees[mysec]->seat_name neq ''}
+   {$attendees[mysec]->seat_name}
+ {/if}
+ <div id="seatinfo{$attendees[mysec]->id}" class="seatboxHover">
+    Seat: {if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if} taken by {$attendees[mysec]->username}
+ </div>
+ 
+ {/if}
+</div>
+{/if}
+{/strip}
+{/section}
+</center>
+</div>
+
+
+
+
+
+<br/>
+{if $state eq 'seated'}
+<div style="text-align:center">
+You are currently seated in {$seatid}, <a href="?page=seating&action=unsit">click here</a> to remove your reservation.
+{/if}
+<br />
+<center>
+<strong>Taken seats</strong>
+<br /><br />
+<table border="1"  class="otable">
+<thead>
+<tr>
+ <th>Name</th>
+ <th>Seat</th>
+</tr>
+</thead>
+{section name=mysec loop=$attendees}
+{strip}
+{if $attendees[mysec]->username neq ''}
+   <tr>
+      <td>{$attendees[mysec]->username}</td>
+      <td>{if $attendees[mysec]->seat_name eq ''}
+             {$attendees[mysec]->id}
+           {/if}
+           {if $attendees[mysec]->seat_name neq ''}
+             {$attendees[mysec]->seat_name}
+           {/if}</td>
+   </tr>
+{/if}
+{/strip}
+{/section}
+</table>
+</center>
+</div>

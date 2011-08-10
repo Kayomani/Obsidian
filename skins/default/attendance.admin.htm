@@ -1,0 +1,102 @@
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=adminmenu">Back to admin menu</a></li>
+</ul>
+
+<style type="text/css">
+
+
+.ticket {
+ width:150px;
+ background-color:lightGrey;
+border:1px solid black;
+display:inline;
+ 
+ }
+</style>
+<link rel="stylesheet" href="{$webPath}css/muffin.css" type="text/css" media="all" />
+
+<h1>Attendance admin for {$data->name}</h1>
+<br />
+<p>Warning there no confirmations on this page and everything is logged.  Note if you give someone a ticket manually you should also add them to the respective frontend
+group as there maybe further permissions/titles. Note if you remove someone and leave them in the frontend group then their ticket will get automatically added again when they visit the site!</p>
+<br />
+<table class="otable">
+<thead>
+<tr>
+ <th>User</th>
+ <th>Clan</th>
+ <th>Seat</th>
+ <th>Active Tickets</th>
+ <th>Add Tickets</th>
+</tr>
+</thead>
+{section name=mysec loop=$attendees}
+{strip}
+   <tr>
+      <td> <a href="?page=attendanceadmin&a=remu&id={$data->id}&tid={$attendees[mysec]->id}"><img border="0"  src="{$webPath}images/cross.png" width="15px" height="15px" title="Remove" /></a>&nbsp;
+      {$attendees[mysec]->username}</td>
+      <td>{$attendees[mysec]->user_clantag}</td>
+       <td>{$attendees[mysec]->seat}</td>
+      <td>
+      {section name=ticket loop=$attendees[mysec]->tickets}
+       {strip}
+       <div class="ticket">
+       {if $attendees[mysec]->tickets[ticket]->name == 'Full weekend'}
+        <img src="{$webPath}skins/default/images/ticket-icon-full.png" width="45px" height="23px" title="Full weekend ticket" />
+       {elseif $attendees[mysec]->tickets[ticket]->name == 'Spectator'}
+        <img src="{$webPath}skins/default/images/ticket-icon-spec.png" width="45px" height="23px" title="Spectator" />
+         {elseif $attendees[mysec]->tickets[ticket]->name == 'Staff'}
+        <img src="{$webPath}skins/default/images/ticket-icon-staff.png" width="45px" height="23px" title="Staff" />
+         {elseif $attendees[mysec]->tickets[ticket]->name == 'Saturday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sat.png" width="45px" height="23px" title="Spectator" />
+         {elseif $attendees[mysec]->tickets[ticket]->name == 'Sunday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sun.png" width="45px" height="23px" title="Spectator" />
+       {else}
+        <img src="{$webPath}skins/default/images/ticket-icon-other.png" width="45px" height="23px" title="{$attendees[mysec]->tickets[ticket]->name}" />
+       {/if}
+         <a href="?page=attendanceadmin&a=rem&id={$data->id}&tid={$attendees[mysec]->tickets[ticket]->tid}"><img border="0"  src="{$webPath}images/cross.png" width="15px" height="15px" title="Remove" /></a>
+       </div>
+       {/strip}
+      {/section}
+      </td>
+      <td>
+      <form action="?page=attendanceadmin&id={$data->id}" method="post" class="niceform">
+      <input type="hidden" name="lanid" value="{$data->id}"></input>
+      <input type="hidden" name="user" value="{$attendees[mysec]->user_id}"></input>
+      
+       <select id="user" name="ticket">
+                {section name=tloop loop=$attendees[mysec]->availtickets}
+                
+                <option value="{$attendees[mysec]->availtickets[tloop]->id}">{$attendees[mysec]->availtickets[tloop]->name}</option>
+               {/section}
+
+              </select>
+      <input type="submit" name="submit" id="submit" value="Add" />
+      </form>
+      </td>
+   </tr>
+{/strip}
+{/section}
+</table>
+<br /><br />
+<form action="?page=attendanceadmin&id={$data->id}" method="post" class="niceform">
+<input type="hidden" name="lan" value="{$data->id}"></input>
+    <fieldset>
+    
+        <dl>
+        	<dt><label for="name">Add user:</label></dt>
+            <dd>
+              <select id="user" name="user">
+                {foreach from=$allusers  key=k item=v}
+                
+                <option value="{$v}">{$k}</option>
+               {/foreach}
+
+              </select>
+            </dd>
+        </dl>       
+
+      <dl><input type="submit" name="submit" id="submit" value="Submit" /></dl>
+    </fieldset>
+
+</form>

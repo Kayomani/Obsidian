@@ -1,0 +1,54 @@
+<form action="?page=editserver&action=edit&sid={$server->server_id}" method="post">
+<fieldset><legend>Add server</legend>
+<table style="width: auto">
+	<tr>
+		<td>Protocol:</td>
+		<td><select name="protocol">
+			{foreach from=$gameslist key=k item=v}
+			<option {if $k== "source" and $protocol== ""}selected{/if} 
+                    {if $k==$protocol}selected{/if}  value="{$k}">{$v}</option>
+			{/foreach}
+		</select></td>
+	</tr>
+	<tr>
+		<td style="width: 130px">Address</td>
+		<td><input style="width: 150px; margin: 0px;" type="text"
+			name="address" value="{$server->address}"></input></td>
+	</tr>
+
+	<tr>
+		<td>Port</td>
+		<td><input style="width: 80px; margin: 0px;" type="text" name="port" value="{$server->cport}"></input></td>
+	</tr>
+
+	<tr>
+		<td>Query Port</td>
+		<td><input style="width: 80px; margin: 0px;" type="text" name="qport" value="{$server->qport}"></input> <span style="color: grey"> < You can
+		normally leave this blank!</span></td>
+	</tr>
+	<tr>
+		<td>Hostname Override</td>
+		<td><input style="width: 280px; margin: 0px;" type="text" name="hostnameoverride" value="{$server->hostnameoverride}"></input> <span style="color: grey"></td>
+	</tr>
+	<tr>
+		<td>Comment</td>
+		<td><textarea name="comment">{$server->comment}</textarea></td>
+	</tr>
+	<tr>
+		<td>Official Server</td>
+		<td><input type="checkbox" name="official" {if $server->type == '1'}checked{/if} ></input></td>
+	</tr>
+	<tr>
+		<td>Delete</td>
+		<td><input type="checkbox" name="delete" ></input></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" name="Update" value="Validate"></td>
+	</tr>
+</table>
+
+
+
+</fieldset>
+</form>

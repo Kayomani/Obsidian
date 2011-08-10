@@ -1,0 +1,222 @@
+
+<script type="text/javascript">
+$(document).ready(function() {
+ 
+    function updatePic(){
+        var $id = $("#game").val();
+       $.get("?page=ttgetpic&imgid=" + $id, function(data){
+            $("#gamepic").attr("src",data);
+         });
+    }
+        function autoSubmit(){
+      //$("form:first").trigger("submit");
+     $("#updateBtn").click();
+     //$("form:first").find('input[id=updateBtn]').click();
+    }
+    
+   $("#eventtype").change(function() {
+      autoSubmit();
+   });
+   $("#eventtype").keypress(function() {
+      autoSubmit();
+   }); 
+   //Remove update button
+  $("#updateBtn").attr("style","display:none");
+    
+   $("#game").change(function() {
+      updatePic();
+      
+   });
+   $("#game").keypress(function() {
+      updatePic();
+   });
+    
+});
+</script>
+
+<!-- START HEADER -->
+<form id="mainform" method="post" action="?page=ttedit&action=edit">
+  <input type="hidden" name="id" value="{$event->id}" />
+<fieldset>
+<legend>Event type</legend>
+<div style="width:50%;float:left;text-align:center">
+ <label for="eventtype">Game Type</label><br />
+ <select class="text" id="eventtype" name="eventtype">
+  <option value="game" {if $event->type == 'game'}selected{/if}>Big game / Tournament</option>
+  <option value="other" {if $event->type == 'other'}selected{/if}>Other event</option>
+  <option value="food" {if $event->type == 'food'}selected{/if}>Food Run</option>
+ </select>
+ <input type="submit" id="updateBtn" name="submitBtn" value="Update" /><br />
+ <i>Warning: Changing the option above may cause the information below to be wiped!</i>
+</div>
+<div style="text-align:center">
+<label for="organiser">Organiser</label><br />
+{if $userIsAdmin == "1"}
+ <select class="text" id="organiser" name="organiser">
+   {section name=ce loop=$userlist}
+     <option value="{$userlist[ce]->user_id}"
+      {if $event->owner == $userlist[ce]->user_id}selected{/if}>{$userlist[ce]->username}</option>
+   {/section}
+ </select>
+{else}
+{section name=ce loop=$userlist}
+  {if $event->owner == $userlist[ce]->user_id}{$userlist[ce]->username}{/if}
+{/section}
+{/if}
+</div>
+</fieldset>
+<fieldset>
+<legend>Event details</legend>
+
+<!-- END HEADER -->
+
+<!-- START BIG GAME/TOURNEY -->
+{if $event->type == 'game' or $event->type == ''}  
+
+<div style="float: left; margin-right: 10px;height:100%">
+  <img id="gamepic" height="220px" width="220px" src="{strip}
+  {if $image}
+     {$webPath}{$image}
+  {else}
+   {$webPath}images/games/other.png
+  {/if}
+  {/strip}" />
+</div>
+ <p>
+ <label for="bane">Event Name</label><br />
+ <input id="eventname" class="text" name="eventname" value="{$event->eventname}" />
+</p>
+<p>
+ <label for="game">Game</label><br />
+ <select  class="text" id="game" name="game">
+   {section name=ce loop=$gamelist}
+     <option value="{$gamelist[ce]->game_id}"
+      {if $event->game == $gamelist[ce]->game_id}selected{/if}  {if $event->game == '' and $gamelist[ce]->name == 'Other'}selected{/if}  >{$gamelist[ce]->name}</option>
+   {/section}
+ </select>
+</p>
+
+<p>
+ <label for="othergame">Other game <em>(This will override the above)</em></label><br />
+ <input id="othergame" class="text" name="othergame" value="{$event->othergame}"/>
+</p>
+
+<div>
+<span style="float:left;margin-right:20px">
+ <label for="teams">Use team registration</label><br />
+   <select class="text" id="teams" name="teams">
+      <option  {if $event->teambased  == '1'}selected{/if}  value="yes">Yes</option>
+      <option {if $event->teambased  == '0'}selected{/if} value="no">No</option>
+   </select>
+   </span>
+   <span>
+    <label for="teams">Max players per team</label><br />
+   <select class="text" id="maxmembers" name="maxmembers">
+    <option value="0" {if $event->teamsize == '0'}selected{/if} >No limit</option>
+      {section name=foo loop=99}
+       <option value="{$smarty.section.foo.iteration}" {if $event->teamsize == {$smarty.section.foo.iteration}}selected{/if}>{$smarty.section.foo.iteration}</option>
+     {/section}
+   </select>
+   </span>
+</div>
+<div>
+<span style="float:left;margin-right:20px">
+
+ <label for="max">Min players/teams</label><br />
+   <select class="text" id="minplayers" name="minplayers">
+     <option value="0" {if $event->minplayers == '0'}selected{/if} >No limit</option>
+     {section name=foo loop=99}
+     <option value="{$smarty.section.foo.iteration}" {if $event->minplayers == {$smarty.section.foo.iteration}}selected{/if}>{$smarty.section.foo.iteration}</option>
+    {/section}
+   </select>
+
+</span>
+<span>
+ <label for="max">Max players/teams</label><br />
+   <select class="text" id="maxplayers" name="maxplayers">
+     <option value="0" {if $event->maxplayers == '0'}selected{/if} >No limit</option>
+     {section name=foo loop=99}
+     <option value="{$smarty.section.foo.iteration}" {if $event->maxplayers == {$smarty.section.foo.iteration}}selected{/if}>{$smarty.section.foo.iteration}</option>
+    {/section}
+   </select>
+</span>
+</div>
+
+
+<p>
+ <label for="when">When<br />
+ {eval var=$lantime_when_tmpl}
+</p>
+
+<br />
+<label>Options:</label><br />
+ {if $userIsAdmin == "1"}
+   <input type="checkbox" id="official" name="official" {if $event->userevent == '0'}checked{/if}>Official Event</input><br />
+   {/if}
+<p>
+ 
+  <input type="checkbox" id="delete" name="delete">Delete</input>
+</p>
+
+<input type="submit" name="submitBtn"  value="Submit" />
+
+<!-- END BIG GAME/TOURNEY -->
+
+{else}
+
+<!--  START FOOD -->
+
+ <p>
+ {if $event->type == 'food'}  
+ <label for="eventname">Where are you going?</label><br />
+ {else}
+ <label for="eventname">Event name</label><br />
+ {/if}
+ <input id="eventname" class="text" name="eventname" value="{$event->eventname}" />
+</p>
+<p>
+ <label for="when">When<br />
+ {eval var=$lantime_when_tmpl}
+</p>
+<p>
+<label for="max">Max people (If enabled)</label><br />
+   <select class="text" id="maxplayers" name="maxplayers">
+     <option value="0" {if $event->maxplayers == '0'}selected{/if} >No limit</option>
+     {section name=foo loop=99}
+     <option value="{$smarty.section.foo.iteration}" {if $event->maxplayers == {$smarty.section.foo.iteration}}selected{/if}>{$smarty.section.foo.iteration}</option>
+    {/section}
+   </select>
+</p>
+<p>
+<label for="details">Further Details</label><br />
+<textarea style="height:170px;width:390px" name="details" id="details">{$event->details}</textarea>
+</p>
+<p>
+ <label for="usesignups">Options</label><br />
+  <input type="checkbox" id="usesignups" name="usesignups" {if $event->allowsignups == '1'}checked{/if}>Signups enabled</input><br />
+  
+  
+ {if $userIsAdmin == "1"}
+   <input type="checkbox" id="official" name="official" {if $event->userevent == '0'}checked{/if}>Official Event</input><br />
+   {/if}
+   <br />
+  <input type="checkbox" id="delete" name="delete">Delete</input><br />
+</p>
+
+
+<input type="submit" name="submitBtn"  value="Submit" />
+<!--  END FOOD -->
+
+{/if}
+
+</fieldset>
+
+<fieldset>
+<legend>How to use</legend>
+<ul>
+<li>Food run - Basic food run with optional signups.</li>
+<li>Big Game - Has signups with optional teams and ability to post results manually.</li>
+<li>Tournament - Signups with optional teams and automatic match generation</li>
+</ul>
+</fieldset>
+</form>

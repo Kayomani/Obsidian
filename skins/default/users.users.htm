@@ -1,0 +1,84 @@
+
+{if $filter == 'none'}
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=userlist&filter=current">View attendance for {$lan->name}</a></li>
+</ul>
+<h2>Viewing entire userlist</h2>
+{else}
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">		
+		<li><a href="?page=userlist&filter=current&filter=none">View entire userlist</a></li>
+</ul>
+<h2>Viewing attendance for {$lan->name}</h2>
+<div>The following is a list of people who have signed up to the LAN and have a ticket and seat.</div>
+{/if}
+<br />
+<style type="text/css">
+th, td, caption { padding:0px; padding-top:2px;}
+</style>
+<table>
+<thead>
+<th></th>
+<th>Username</th>
+<th>Clan</th>
+ {if $filter != 'none'}
+<th>Seat</th>
+{/if}
+ {if $filter != 'none'}
+<th>Address</th>
+<th>PC</th>
+
+<th>Arrived?</th>
+<th>Ticket</th>
+{/if}
+</thead>
+<tbody>
+{section name=count loop=$userlist}
+{strip}
+<tr>
+ <td>
+  {if $userlist[count]->smallavatar}
+   <img src="{$userlist[count]->smallavatar}" style="width:30px;height:30px" />
+  {else}
+    <div style="height:30px;width:30px;background-color:Gray"></div>
+  {/if}
+ </td>
+ <td><a href="?page=profile&uid={if $userlist[count]->user_id}{$userlist[count]->user_id}{else}{$userlist[count]->userid}{/if}">{$userlist[count]->username}</a></td>
+ <td>{$userlist[count]->clan}</td>
+  {if $filter != 'none'}
+ <td>{strip}
+ {if $userlist[count]->seat_name}
+   {$userlist[count]->seat_name}
+ {else}
+  {$userlist[count]->seat_id}
+ {/if}
+ {/strip}
+ </td>
+  {/if}
+   {if $filter != 'none'}
+ <td>{$userlist[count]->ip}</td>
+ <td>{$userlist[count]->netbios}</td>
+
+ <td>{$userlist[count]->arrived}</td>
+ <td>{section name=ticket loop=$userlist[count]->tickets}
+       {strip}
+  {if $userlist[count]->tickets[ticket]->name == 'Full weekend'}
+        <img src="{$webPath}skins/default/images/ticket-icon-full.png" width="45px" height="23px" title="Full weekend ticket" />
+       {elseif $userlist[count]->tickets[ticket]->name == 'Spectator'}
+        <img src="{$webPath}skins/default/images/ticket-icon-spec.png" width="45px" height="23px" title="Spectator" />
+         {elseif $userlist[count]->tickets[ticket]->name == 'Staff'}
+        <img src="{$webPath}skins/default/images/ticket-icon-staff.png" width="45px" height="23px" title="Staff" />
+         {elseif $userlist[count]->tickets[ticket]->name == 'Saturday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sat.png" width="45px" height="23px" title="Spectator" />
+         {elseif $userlist[count]->tickets[ticket]->name == 'Sunday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sun.png" width="45px" height="23px" title="Spectator" />
+         {/if}
+
+         {/strip}
+      {/section}
+      </td>
+      {/if}
+</tr>
+{/strip}
+{/section}
+</tbody>
+</table>

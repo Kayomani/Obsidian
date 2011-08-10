@@ -1,0 +1,24 @@
+<h2>Tournament info</h2>
+
+{if $currentUserSignedUp}
+<a href="intranet.php?p=tournament&tid={$biggame->id}&action=remsignup">Remove sign up</a>
+{else}
+<a href="intranet.php?p=tournament&tid={$biggame->id}&action=signup">Sign up</a>
+{/if}
+<br />
+<h2>{$gamename}</h2>
+<img src="{$image}" />
+<div>Sign ups:</div>
+
+<table>
+<thead>
+<th>Username</td>
+</thead>
+{section name=ce loop=$signups}
+<tr>
+ <td>
+ {$signups[ce]->username}
+ </td>
+</tr>
+{/section}
+</table>

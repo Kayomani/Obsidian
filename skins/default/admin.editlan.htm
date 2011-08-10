@@ -1,0 +1,126 @@
+
+<link rel="stylesheet"
+	href="{$webPath}css/ui-lightness/jquery-ui-1.8.1.custom.css"
+	type="text/css" media="all" />
+<link type="text/css" href="{$webPath}themes/base/jquery.ui.all.css"
+	rel="stylesheet" />
+
+
+<script type="text/javascript" src="{$webPath}js/jquery-1.4.2.js"></script>
+<script type="text/javascript"
+	src="{$webPath}js/jquery-ui-1.8.1.custom.min.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.button.js"></script>
+<script type="text/javascript" src="{$webPath}js/timepicker.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#starttime').datepicker( {
+			duration : '',
+			showTime : true,
+			constrainInput : true,
+			stepMinutes : 1,
+			stepHours : 1,
+			altTimeField : '',
+			time24h : true
+		});
+		$('#endtime').datepicker( {
+			duration : '',
+			showTime : true,
+			constrainInput : true,
+			stepMinutes : 1,
+			stepHours : 1,
+			altTimeField : '',
+			time24h : true
+		});
+	});
+</script>
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=adminmenu">Back to admin menu</a></li>
+</ul>
+<h1>Edit event</h1>
+<br />
+<br />
+<form action="?page=editlan" method="post" class="niceform"><input
+	type="hidden" name="lan" value="{$data->id}"></input>
+<fieldset>
+
+<dl>
+	<dt><label for="name">Name:</label></dt>
+	<dd><input type="text" name="name" value="{$data->name}"></input></dd>
+</dl>
+<dl>
+	<dt><label for="enabled">Mode</label></dt>
+	<dd><select class="text" id="mode" name="mode">
+		{section name=ce loop=$modelist}
+		<option value="{$modelist[ce]->mode_id}" {if $lan->mode_id ==
+		$modelist[ce]->mode_id}selected{/if}>{$modelist[ce]->mode_name}</option>
+		{/section}
+	</select></dd>
+</dl>
+<dl>
+	<dt><label for="starttime">Start</label></dt>
+	<dd><input type="text" id="starttime" name="starttime"
+		value="{$data->start}"> MM/DD/YYYY (Todo: fix this)</input></dd>
+</dl>
+<dl>
+	<dt><label for="endtime">End</label></dt>
+	<dd><input type="text" id="endtime" name="endtime"
+		value="{$data->end}">MM/DD/YYYY</input></dd>
+</dl>
+<dl>
+	<dt><label for="places">Places</label></dt>
+	<dd><input type="text" name="places" value="{$data->places}"></input></dd>
+</dl>
+<dl>
+	<dt><label for="layout">Layout</label></dt>
+	<dd><input type="text" name="layout" value="{$data->layout}"></input></dd>
+</dl>
+<dl>
+	<dt><label for="text">Custom text</label></dt>
+	<dd><textarea class="ckeditor" name="text" name="text"
+		id="editor1" rows="20" cols="120">{$data->text}</textarea></dd>
+
+</dl>
+
+</fieldset>
+<script type="text/javascript">
+	CKEDITOR.replace('editor1', {
+		toolbar : [
+				[ 'Source', '-', 'Templates', '-', 'Cut', 'Copy', 'Paste',
+						'PasteText' ],
+
+				[ 'Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll',
+						'RemoveFormat' ],
+				[ 'Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript',
+						'Superscript' ],
+				'/',
+
+				[ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent',
+						'Blockquote', 'CreateDiv' ],
+				[ 'JustifyLeft', 'JustifyCenter', 'JustifyRight',
+						'JustifyBlock' ],
+				[ 'Link', 'Unlink', 'Anchor' ],
+				[ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley',
+						'SpecialChar' ],
+				'/',
+				[ 'Styles', 'Format', 'Font', 'FontSize', 'TextColor',
+						'BGColor', 'Maximize', 'ShowBlocks' ]
+
+		],
+
+		uiColor : '#9AB8F3'
+	});
+</script>
+<fieldset class="action">
+<dl>
+	<dt><label for="delete">Delete this LAN</label></dt>
+	<dd><input type="checkbox" name="delete" /></dd>
+</dl>
+<dl>
+	<input type="submit" name="submit" id="submit" value="Submit" />
+</dl>
+</fieldset>
+
+</form>

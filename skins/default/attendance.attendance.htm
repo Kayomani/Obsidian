@@ -1,0 +1,167 @@
+
+<link rel="stylesheet" href="{$webPath}css/ui-lightness/jquery-ui-1.8.1.custom.css" type="text/css" media="all" />
+<link type="text/css" href="{$webPath}themes/base/jquery.ui.all.css" rel="stylesheet" />
+
+<script language="javascript" type="text/javascript" src="{$webPath}css/niceforms2/niceforms.js"></script>
+<link rel="stylesheet" type="text/css" media="all" href="{$webPath}css/niceforms2/niceforms-default.css" />
+<link rel="stylesheet" type="text/css" media="all" href="{$webPath}css/seats.css" />
+<link rel="stylesheet" href="{$webPath}css/muffin.css" type="text/css" media="all" />
+<style type="text/css">
+th { min-width:120px;}
+
+.otable tr, .otable td {
+ border:0px solid #CCCCCC;
+  border-top: 0px solid #CCCCCC;
+}
+
+
+#message { 
+background-color:#307BC0;
+border:1px solid black;
+margin:20px;
+padding:20px;
+width:70%;
+color:white;
+}
+
+table { width: auto; }
+
+</style>
+
+<script type="text/javascript" src="{$webPath}js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="{$webPath}js/jquery-ui-1.8.1.custom.min.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.button.js"></script>
+
+	<script type="text/javascript">
+	$(function() {
+		$("button, input:submit, a", ".demo").button();
+		
+	
+	});
+	</script>
+
+<center><div><font size="9pt">{$lan->name} Home</font></div> <br />
+<b>Start:</b> {$lan->start|date_format:"%H:%M %A, %B %e, %Y"}  <br />
+<b>End:</b>  {$lan->end|date_format:"%H:%M %A, %B %e, %Y"} <br />
+<b>Places:</b>  {$lan->places} ({$signupsfree} place{if $signupsfree!=1}s{/if} left)<br />
+
+
+</center>
+<br />
+{if $message}
+<center>
+<div id="message">
+{$message}
+</div>
+</center>
+{/if}
+{$lan->text}
+<br />
+
+
+<div style="float:right;width:50%">
+<div class="demo">
+<center>
+{if $state == 'notsignedup'}
+
+<br />
+You are not signed up to this LAN, click the button below to sign up:<br /><br />
+<a href="?page=attendance&action=signup">Sign up</a><a href="http://www.lanops.co.uk/plugins/easyshop/easyshop.php?cat.3">Buy Ticket</a>
+
+{elseif $state == 'signedup'}
+
+<br />
+You are signed up but don't have a ticket.<br />
+You must buy a ticket to reserve your place and allow you to select a seat!<br /><br />
+<a href="?page=attendance&action=removeme">Remove sign up</a>
+<a href="/plugins/easyshop/easyshop.php?cat.3">Buy Ticket</a>
+
+{elseif $state == 'hasticket'}
+
+<br />
+You are signed up but haven't selected a seat!<br /><br />
+<a href="?page=attendance&action=removeme">Remove sign up</a>
+<a href="http://www.lanops.co.uk/plugins/easyshop/easyshop.php?cat.3">Buy Ticket</a>
+<a href="?page=seating">Pick seat</a>
+
+{elseif $state == 'hasseat'}
+
+<br />
+You are signed up and have a seat, see you at the LAN!<br /><br />
+<a href="?page=attendance&action=removeme">Remove sign up</a>
+<a href="?page=seating">Seating plan</a>
+
+{elseif $state == 'anon'}
+Login to register for this LAN!
+
+{else}
+
+Unknow state {$state}
+
+{/if}
+</center>
+</div>
+</div>
+<center>
+<table>
+<thead>
+<tr>
+ <th>Ticket</th>
+ <th>Price</th>
+</tr>
+</thead>
+{section name=mysec loop=$ticketlists}
+{strip}
+   <tr>
+      <td>{$ticketlists[mysec]->name}</td>
+      <td>&#163;{$ticketlists[mysec]->price|number_format:2}</td>
+   </tr>
+{/strip}
+{/section}
+</table>
+</center>
+<br />
+
+<br />
+<center>
+<table border="1" class="otable">
+<thead>
+<tr>
+ <th>User</th>
+ <th>Clan</th>
+ <th>Seat</th>
+ <th>Type</th>
+</tr>
+</thead>
+{section name=mysec loop=$users}
+{strip}
+   <tr>
+      <td>{$users[mysec]->username}</td>
+      <td>{$users[mysec]->clan}</td>
+       <td>{$users[mysec]->seat}</td>
+      <td>
+      {section name=ticket loop=$users[mysec]->tickets}
+       {strip}
+       {if $users[mysec]->tickets[ticket] == 'Full weekend'}
+        <img src="{$webPath}skins/default/images/ticket-icon-full.png" width="45px" height="23px" title="Full weekend ticket" />
+       {elseif $users[mysec]->tickets[ticket] == 'Spectator'}
+        <img src="{$webPath}skins/default/images/ticket-icon-spec.png" width="45px" height="23px" title="Spectator" />
+         {elseif $users[mysec]->tickets[ticket] == 'Staff'}
+        <img src="{$webPath}skins/default/images/ticket-icon-staff.png" width="45px" height="23px" title="Staff" />
+         {elseif $users[mysec]->tickets[ticket] == 'Saturday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sat.png" width="45px" height="23px" title="Spectator" />
+         {elseif $users[mysec]->tickets[ticket] == 'Sunday Only'}
+        <img src="{$webPath}skins/default/images/ticket-icon-sun.png" width="45px" height="23px" title="Spectator" />
+       {else}
+        <img src="{$webPath}skins/default/images/ticket-icon-other.png" width="45px" height="23px" title="{$users[mysec]->tickets[ticket]}" />
+       {/if}
+       {/strip}
+      {/section}
+      </td>
+   </tr>
+{/strip}
+{/section}
+</table>
+</center>

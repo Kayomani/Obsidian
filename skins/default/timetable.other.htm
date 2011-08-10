@@ -1,0 +1,34 @@
+<h2>Food Run</h2>
+
+<fieldset>
+<span style="font-size:1.2em;font-weight:bold">Organiser:</span>  {$foodrun->username}<br />
+<span style="font-size:1.2em;font-weight:bold">When:</span>  {$foodrun->occurs}<br />
+<span style="font-size:1.2em;font-weight:bold">Going to:</span>  {$foodrun->eventname}<br />
+<span style="font-size:1.2em;font-weight:bold">Official Event:</span>  {if $foodrun->userevent == '1'}No{else}Yes{/if}<br />
+{if $foodrun->details}<span style="font-size:1.2em;font-weight:bold">Further info:</span> <pre>{$foodrun->details}</pre>{/if}
+</fieldset>
+
+{if $foodrun->allowsignups}
+
+{if $currentUserSignedUp}
+<a href="intranet.php?p=foodrun&tid={$foodrun->id}&action=remsignup">Remove sign up</a>
+{else}
+<a href="intranet.php?p=foodrun&tid={$foodrun->id}&action=signup">Sign up</a>
+{/if}<br /><br />
+<div>Sign ups: {$foodrun->signups} {if $foodrun->maxplayers != '0'}(Max {$foodrun->maxplayers}){/if}:</div>
+
+<table>
+<thead>
+<th>Username</td>
+</thead>
+{section name=ce loop=$signups}
+<tr>
+ <td>
+ {$signups[ce]->username}
+ </td>
+</tr>
+{/section}
+</table>
+{else}
+<p>Signups are currently disabled.</p>
+{/if}

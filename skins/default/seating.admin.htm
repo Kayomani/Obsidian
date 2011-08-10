@@ -1,0 +1,305 @@
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=adminmenu">Back to admin menu</a></li>
+</ul>
+
+<link rel="stylesheet" href="{$webPath}css/ui-lightness/jquery-ui-1.8.1.custom.css" type="text/css" media="all" />
+<link type="text/css" href="{$webPath}themes/base/jquery.ui.all.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" type="text/css" media="all" href="{$webPath}css/seats.css" />
+
+<script type="text/javascript" src="{$webPath}js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="{$webPath}js/jquery-ui-1.8.1.custom.min.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="{$webPath}js/ui/jquery.ui.button.js"></script>
+
+	<script type="text/javascript">
+	$(function() {
+		$("button, input:submit, a", ".demo").button();
+		
+		$("a", ".demo").click(function() { 
+		 var html = "<div title=\"Disabled\" style=\"position: absolute; top: 125px; left: 680px;\" class=\"seatDisabled\"></div>";
+		$(".seating").append(html);
+		  $(".seatDisabled").draggable();
+		 return false; 
+		});
+	});
+	</script>
+
+
+
+<style type="text/css">
+
+.otable tbody tr td {
+background-color:#FFFFFF;
+}
+input { width:150px;}
+select { width:150px;}
+
+.hidden {
+ display:none;
+}
+
+</style>
+ <script>
+ 
+   function clear(){
+   $(".seating").html("<font color=\"white\"><h2>Loading</h2></font>");
+   }
+   
+   function clearFields()
+   {
+    $("#seat_id").val('');
+    $("#name").val('');
+    $("#x").val('');
+    $("#y").val('');
+    $("#type").val('');
+    $("#lanid").val('');
+    $("#user").html('');
+   }
+   
+   function updateSeat(seat){
+  // var position = seat.position();
+   //Update DB
+   $.post("{$webPath}?page=seatingadmin&ajax=1&lan={$id}", {  
+	                          t: "moveseat",
+                             id: seat.children("[name=id]").html(), 
+                              y: seat.css("top"), 
+                              x: seat.css("left") });
+    //Pull info for display
+    $("#seat_id").val(seat.children("[name=id]").html());
+    $("#name").val(seat.children("[name=name]").html());
+    $("#x").val(seat.css("left"));
+    $("#y").val(seat.css("top"));
+    $("#type").val(seat.children("[name=type]").html());
+    $("#lanid").val(seat.children("[name=lan_id]").html());
+    $("#user").html("<option>LOADING</option>");
+
+    $.get("{$webPath}?page=seatingadmin&ajax=1", {   t: "getusers",
+                      lan: {$id}, 
+                     seat: seat.children("[name=id]").html(),
+                  user_id: seat.children("[name=user_id]").html()
+                     },
+                      function(data){
+                               $("#user").html(data);
+                               var uid = seat.children("[name=user_id]").html();
+                               if(uid == 'null')
+                                uid = '0';
+                               $("#user").val(uid);
+                 
+                       }
+     );
+   }
+   
+   
+   function bindClick(){
+    $(".disabledseat").mouseup(function(e){
+		updateSeat($(this));
+	    return true; 
+     });
+      $(".takenseat").mouseup(function(e){
+		updateSeat($(this));
+	    return true; 
+     });
+      $(".freeseat").mouseup(function(e){
+		updateSeat($(this));
+	    return true; 
+     });
+      $(".staffseat").mouseup(function(e){
+		
+		updateSeat($(this));
+	    return true; 
+     });
+     
+   }
+   
+   function addSeat(){
+     clear();
+     $.get("{$webPath}?page=seatingadmin&ajax=1&t=addseat&lan={$id}", function(data){
+        clear();
+        getSeats();
+     });
+   }
+   
+   function getSeats(){
+      
+       $.getJSON("{$webPath}?page=seatingadmin&ajax=1&t=seatlist&lan={$id}",
+        function(data){
+        $(".seating").html("");
+         $.each(data, function(i,item){
+         
+           var title = "Available";
+           var type ="freeseat";
+           
+           switch(item.type)
+           {
+             case '0':
+                 //Leave as defaults
+               break;
+             case '1':
+               title="Staff Only";
+               type="staffseat";
+              break;
+             case '2':
+               title="Disabled";
+               type="disabledseat";
+              break;
+           }
+           
+           
+           if(item.user_id != null && item.user_id != 0)
+           {
+              title="Seat taken";
+              type="takenseat";
+           }
+           var name = item.seat_name;
+           if(null==name || name =="")
+             name = item.id;
+         
+           var html  ="<div title=\"" + title + "\" style=\"top: " + item.y + "px; left: " + item.x + "px;\" class=\"" +type +"\">" + name;
+               html +="<div class=\"hidden\" name=\"id\">" +item.id +"</div>";
+               html +="<div class=\"hidden\" name=\"lan_id\">" +item.lan_id +"</div>";
+               html +="<div class=\"hidden\" name=\"user_id\">" +item.user_id +"</div>";
+               html +="<div class=\"hidden\" name=\"type\">" +item.type +"</div>";
+               if(item.seat_name==null)
+                html +="<div class=\"hidden\" name=\"name\"></div>";
+               else
+                html +="<div class=\"hidden\" name=\"name\">" +item.seat_name +"</div>";
+               html +="</div>";
+		   $(".seating").append(html);
+		   $(".disabledseat").draggable();
+		   $(".takenseat").draggable();
+		   $(".freeseat").draggable();
+		   $(".staffseat").draggable();
+		   
+         });
+         bindClick();
+       });
+   }
+ 
+  $(document).ready(function() {
+    clearFields();
+    $(".add a").click(function(e){
+      addSeat();
+      e.preventDefault();
+      return false;
+    });
+    $(".delete a").click(function(e){
+       
+        var sid = $("#seat_id").val();
+        
+        if(sid=="" || sid ==null)
+        {
+         alert("No seat selected!");
+        }
+        else
+        {
+         clear();
+           $.post("{$webPath}?page=seatingadmin&ajax=1", { t: "delseat", id: sid});
+           clearFields();
+           getSeats();
+        }
+        
+        e.preventDefault();
+        return false;
+    });
+      $(".modify a").click(function(e){
+        var _id = $("#seat_id").val();
+        var _lanid = $("#lanid").val();
+        var _name = $("#name").val();
+        var _x = $("#x").val();
+        var _y = $("#y").val();
+        var _type = $("#type").val();
+        var _user = $("#user").val();
+         
+        if(_id=="" || _id ==null)
+        {
+         alert("No seat selected!");
+        }
+        else
+        {
+         
+           $.post("{$webPath}?page=seatingadmin&ajax=1", {   
+                         t: "setseat",
+                          lan_id: _lanid,
+                              id: _id, 
+                            name: _name, 
+                         user_id: _user,
+                               y: _y, 
+                               x: _x, 
+                           type: _type },  function(data){
+  // alert("Data Loaded: " + data);
+        clear();
+        getSeats();
+ });
+        }
+      
+        e.preventDefault();
+        return false;
+    });
+   
+    getSeats();
+  });
+  </script>
+
+<h1>Seating admin</h1>
+<br />
+
+<div class="seating" style="position:relative;background-image:url('{$webPath}{$img}');{$size}">
+
+</div>
+<br />
+
+<form  class="niceform">
+  <input type="hidden" id="lanid" name="lanid" value=""></input>
+    <fieldset>
+      <dl>
+        	<dt><label for="seat_id">Id:</label></dt>
+            <dd><input type="text" disabled  id="seat_id" name="seat_id" ></input></dd>
+        </dl>
+        <dl>
+        	<dt><label for="name">Name:</label></dt>
+            <dd><input type="text" id="name" name="name" ></input></dd>
+        </dl>
+        <dl>
+        	<dt><label for="user">User</label></dt>
+            <dd><select name="user" id="user"></select></dd>
+        </dl>
+        <dl>
+        	<dt><label for="x">X</label></dt>
+            <dd><input type="text" id="x" name="x" ></input></dd>
+        </dl>
+         <dl>
+        	<dt><label for="y">Y</label></dt>
+            <dd><input type="text" id="y" name="y" ></input></dd>
+        </dl>
+       <dl>
+        	<dt><label for="type">Type</label></dt>
+            <dd><select name="type" id="type">
+                <option value="0">Normal</option>
+                <option value="1">Staff only</option>
+                <option value="2">Disabled</option>
+                </select>
+           </dd>
+       </dl>    
+       <dl>
+       <dt></dt>
+            <dd><div class="demo"><div class="modify"><a href="#">Update seat</a></div><div class="delete"><a href="#">Delete selected seat</a></div></div></dd>
+       </dl>   
+    </fieldset>
+
+     
+    </fieldset>
+    <fieldset class="action">
+    <dl>
+        	<dt></dt>
+            <dd><div class="demo"><div class="add"><a href="#">Add Chair</a></div></div></dd>
+    </dl>
+     
+    </fieldset>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+
+<div style="float:right">
+<div style="-moz-border-radius:3px 3px 3px 3px;background:url('{$webPath}images/transparent.png') repeat scroll 0 0 transparent;border:1px solid #FFFFFF;color:#F2F2F2;float:right;padding:5px;text-align:center;">
+  <img style="width:184px;height:184px" src="{$user->avatar}" />
+ 
+</div>
+  {if $steamdata->getSteamID64()}
+ <div style="text-align:center;-moz-border-radius:3px 3px 3px 3px;background:url('{$webPath}images/transparent.png') repeat scroll 0 0 transparent;border:1px solid #FFFFFF;color:#F2F2F2;padding:5px;text-align:center;">
+
+  <a href="steam://friends/message/{$steamdata->getSteamID64()}"><img style="padding-top:5px"  src="{$webPath}images/sendmsg.png" title="Send Message" /></a>
+  <a href="steam://friends/add/{$steamdata->getSteamID64()}"><img style="padding-top:5px"  src="{$webPath}images/befriend.png" title="Befriend User " /></a>
+  
+  </div>
+  {/if}
+</div>
+
+<h2>User Profile</h2>
+<span style="font-size:1.2em;font-weight:bold">Username:</span>
+{$user->username}<br />
+
+{if $steamdata->friendlyName}
+<span style="font-size:1.2em;font-weight:bold">In game name:</span>
+{$steamdata->friendlyName}<br />
+{/if}
+
+<span style="font-size:1.2em;font-weight:bold">User type:</span>  {if $user->role == "1"}Administrator{else}Normal User{/if}<br />
+{if $seat}
+<span style="font-size:1.2em;font-weight:bold">Seat:</span>
+{if $seat->seat_name != ""}{$seat->seat_name}{else}{$seat->id}{/if} <br />
+{/if}
+<br />
+{if $user->ip}
+<span style="font-size:1.2em;font-weight:bold">Last known IP:</span> {$user->ip}<br />
+{/if}
+{if $user->netbios}
+<span style="font-size:1.2em;font-weight:bold">Last known computer:</span> {$user->netbios}<br />
+{/if}
+{if count($attendance)}
+<br />
+<span style="font-size:1.2em;font-weight:bold">Lans Attended</span><br />
+<table style="width:400px">
+<thead>
+<tr>
+<th>Name</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody>
+{section name=ce loop=$attendance}
+<tr>
+ <td>
+ {$attendance[ce]->name}
+ </td>
+ <td>
+ {$attendance[ce]->start}
+ </td>
+</tr>
+{/section}
+</tbody>
+</table>
+<br />
+{/if}
+<br />
+{if count($steamdata->gamesSummary)}
+<span style="font-size:1.2em;font-weight:bold">Top games</span><br />
+{section name=ce loop=$steamdata->gamesSummary}
+<div style="-moz-border-radius:3px 3px 3px 3px;background:url('{$webPath}images/transparent.png') repeat scroll 0 0 transparent;border:1px solid #FFFFFF;color:#F2F2F2;float:left;padding:5px;text-align:center;">
+
+<a href="{$steamdata->gamesSummary[ce].gameLink}">
+<img src="{$steamdata->gamesSummary[ce].gameLogo}" /><br />
+
+</a>
+Time played {$steamdata->gamesSummary[ce].hoursOnRecord} Hours
+</div>
+
+{/section}
+{/if}

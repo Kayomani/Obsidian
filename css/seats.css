@@ -1,0 +1,58 @@
+
+.disabledseat
+{
+ height: 35px;
+ width: 35px;
+ border: 1px solid black;
+ text-align: center;
+ vertical-align: middle;
+ position: absolute;
+ background-color: #FF4F9E;
+ font-size: 13pt;
+}
+.takenseat
+{
+  height: 35px;
+ width: 35px;
+ border: 1px solid black;
+ text-align: center;
+ vertical-align: middle;
+ position: absolute;
+ background-color: #E5904D;
+ font-size: 10pt;
+}
+
+.takenseat
+{
+  height: 35px;
+ width: 35px;
+ border: 1px solid black;
+ text-align: center;
+ vertical-align: middle;
+ position: absolute;
+ background-color: #E5904D;
+ font-size: 13pt;
+}
+.freeseat
+{
+  height: 35px;
+ width: 35px;
+ border: 1px solid black;
+ text-align: center;
+ vertical-align: middle;
+ position: absolute;
+ background-color: #333738;
+ color: white;
+ font-size: 13pt;
+}
+.staffseat
+{
+  height: 35px;
+ width: 35px;
+ border: 1px solid black;
+ text-align: center;
+ vertical-align: middle;
+ position: absolute;
+ background-color: #963738;
+ font-size: 13pt;
+}

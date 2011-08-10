@@ -1,0 +1,34 @@
+<STYLE type="text/css">
+  .field { width: 200px; }
+</STYLE>
+<h2>Edit profile</h2>
+<form name="login" action="?page=editprofile&uid={$theuser->user_id}" method="post">
+<input type="hidden" value="{$theuser->user_id}" name="userid" class="text">
+<fieldset>
+
+<table>
+<tr>
+<td style="width:90px"><label for="dummy6">Username</label></td>
+<td><input type="text" value="{$theuser->username}" readonly disablename="username" class="text"></td>
+</tr>
+
+<tr>
+<td style="width:90px"><label for="dummy6">Current Password</label></td>
+<td><input type="password" value="" name="currentpass" class="text"><div style="float:right;padding:10px">Required for any changes</div></td>
+</tr>
+
+<tr>
+<td style="width:90px"><label for="dummy6">New Password</label></td>
+<td><input type="password" value=""  name="newpass" class="text" ><div style="float:right;padding:10px">Only if being changed</div></td>
+</tr>
+
+<tr>
+<td style="width:90px"><label for="dummy6">Steam profile</label></td>
+<td><input type="text" value="{$theuser->steamprofile}"  name="steamprofile" class="text"></td>
+</tr>
+
+</table>
+
+
+<input type="submit" value="Update" name="Update" /></fieldset>
+</form>

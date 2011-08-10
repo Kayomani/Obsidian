@@ -1,0 +1,31 @@
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=adminmenu">Back to admin menu</a></li>
+</ul>
+
+<link rel="stylesheet" href="{$webPath}css/muffin.css" type="text/css" media="all" />
+
+<h1>Log</h1>
+<br />
+<table class="otable">
+<thead>
+<tr>
+ <th>When</th>
+ <th>User</th>
+ <th>Type</th>
+ <th>Message</th>
+</tr>
+</thead>
+{section name=mysec loop=$logs}
+{strip}
+   <tr>
+      <td>{$logs[mysec]->when}</td>
+      <td>{$logs[mysec]->username}</td>
+      <td>{$logs[mysec]->type}</td>
+      <td>{$logs[mysec]->message}</td>
+   </tr>
+{/strip}
+{/section}
+</table>
+
+<br /><br />
+<a href="editlan.php">Create LAN</a>

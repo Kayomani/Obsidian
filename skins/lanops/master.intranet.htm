@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+{if $master_page_name}
+<title>LanOps :: {$master_page_name}</title>
+{else}
+<title>LanOps</title>
+{/if}
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel = "stylesheet" href = "{$webPath}css/blueprint/src/typography.css" type = "text/css" media = "screen, projection"/>
+<link rel = "stylesheet" href = "{$webPath}css/blueprint/src/forms.css" type = "text/css" media = "screen, projection"/>
+<link rel="stylesheet" type="text/css"
+	href="{$webPath}skins/lanops/lanops.css" />
+<link rel="stylesheet" href="{$webPath}css/menu.css" type="text/css"
+	media="screen, projection" />
+<link rel="stylesheet" href="{$webPath}css/niftyCorners.css"
+	type="text/css" media="screen, projection" />
+<link rel = "stylesheet" href = "{$webPath}css/intranet.css" type = "text/css" media = "screen, projection"/>
+<script type="text/javascript" src="{$webPath}js/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="js/niftycube.js"></script>
+
+
+<script type="text/javascript" src="{$webPath}libs/ckeditor/ckeditor.js"></script>
+ <link rel="stylesheet" href="{$webPath}css/muffin.css" type="text/css" media="all" />
+<script type="text/javascript">
+	window.onload = function() {
+		Nifty("div.ttelement", "big");
+	}
+</script>
+<style type="text/css">
+<!--
+.ttelement {
+background-color:#3A3E3F;
+}
+p + p {
+margin-top:1em;
+}
+thead th {
+background:none repeat scroll 0 0 darkGray;
+}
+-->
+</style>
+</head>
+<body>
+
+<div class="fullpage">
+
+<div class="header">
+<div class="logoleft"><img
+	src="{$webPath}skins/lanops/images/logoleftint.png" /></div>
+<div class="logoright"></div>
+<div class="menu">
+<ul>
+	{if CheckPermission("admin","view admin menu")}
+	<li><a href="?page=adminmenu" ><span>Admin</span></a></li>
+	{/if}
+	<li><a href="?page=userlist"><span>User
+	List</span></a></li>
+	<li><a href="?page=jukebox" ><span>Jukebox</span></a>
+
+	</li>
+	<li><a href="?page=fileshare"><span>File Sharing</span></a>
+
+	</li>
+	<li><a href="?page=serverlist"><span>Server
+	list</span></a></li>
+	<li><a href="{$webPath}?page=seating"><span>Seating</span></a>
+
+	</li>
+	<li><a href="{$webPath}?page=timetable"><span>Timetable</span></a>
+
+	</li>
+	<li><a href="{$webPath}"><span>Home</span></a></li>
+</ul>
+</div>
+</div>
+<div id="menubottom"></div>
+
+<div class="maincontent">
+<div id="leftcolumn">
+
+<div class="block">
+<div class="blocktitle">Logon</div>
+<div class="blockcontent">
+ {eval var=$_login}
+</div>
+</div>
+
+</div>
+<div id="contentpane">
+<div id="contentpaneheader">{$master_page_name}</div>
+<div id="contentpanecontent">
+ {$master_errors}
+                 {eval var=$master_page}
+</div>
+</div>
+</div>
+</div>
+<div style="text-align: center; color: lightGrey;"><strong>Lannage</strong>
+:: LAN party manager by Kayomani. Your page created in %%REPLACE%%{DEBUG}</div>
+</body>
+</html>

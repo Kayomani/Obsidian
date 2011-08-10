@@ -1,0 +1,12 @@
+
+XAMPP Setup
+
+1. Install xampp (or other setup)
+2. Go to C:\xampp\php.  Run "Pear upgrade-all"
+3. Run "Pear install MDB2_Driver_mysqli"
+4. Run "pear install channel://pear.php.net/HTML_Safe-0.10.1"
+5. Install database from install dir.
+6. Setup config.php.
+7. Navigate to the main page:
+7.1 If you get strict errors then at the start of index.php add error_reporting(E_ALL & E_STRICT);
+7.2 If you get database issues try uncomment DB_DataObject::debugLevel(5); in the config.php

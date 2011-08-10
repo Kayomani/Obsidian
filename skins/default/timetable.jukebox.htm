@@ -1,0 +1,133 @@
+{if $addevent}
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=ttedit">Add new event</a></li>
+</ul>
+{/if}
+<br />
+<img src="images/l4d2.png" />
+{section name=ce loop=$events}
+{strip}
+{if $events[ce]->type == 'game'}
+<div class="{cycle values="ttelement,ttelementOdd"}">
+<table class="ttbigelement">
+<tr>
+ <td class="tttimecolumn">
+  <div class="tttimehead">{$events[ce]->when}</div>{if strlen($events[ce]->diff)>0}Start in: {$events[ce]->diff}{/if}
+ </td>
+ <td>
+  <div class="tttimehead">{if $events[ce]->game_game_id == "0"}{$events[ce]->othergame}{else}{$events[ce]->game_name}{/if}</div>
+   <div class="tteventname">{$events[ce]->eventname}</div><br />
+
+                     {if $events[ce]->teambased == "0"}
+                     {$events[ce]->signups}
+                      {if $events[ce]->maxplayers != '0'}/{$events[ce]->maxplayers}{/if} player{if $events[ce]->signups != '1' or $events[ce]->maxplayers != '0'}s{/if} signed up
+                       {if $events[ce]->minplayers != '0'}(Minimum {$events[ce]->minplayers}){/if}
+                      {else}
+                      {count($events[ce]->teams)}
+                      {if $events[ce]->maxplayers != '0'}/{$events[ce]->maxplayers}{/if} teams filled {if $events[ce]->minplayers != '0'}(Minimum {$events[ce]->minplayers}){/if}
+                      {/if}.
+    <br />
+     
+      <a href="?page=game&tid={$events[ce]->id}">View Details</a> &nbsp;
+   {if ($events[ce]->owner == $session.UID && $editown) || $editall}
+    <a href="?page=ttedit&tid={$events[ce]->id}">Edit</a>
+    {/if}
+ </div>
+ </td>
+ <td class="ttusercolumn">
+ {if $events[ce]->currentUserSignedUp}<div><strong>You are signed up to this!</strong></div>{/if}
+  {if $events[ce]->userevent == '1'}<div>This is a user run event.</div>{/if}
+ {if $events[ce]->owner == $session.UID}<div style="color:red"><strong>This is your event!</strong></div>{/if}
+ </td>
+ <td class="tticon">
+        <img class="tticonimg" src = "{resizeimage(smarty_modifier_concat('images/games/',$events[ce]->game_picture),110,110)}" alt="{$events[ce]->game_name}" />
+ </td>
+</tr>
+</table>
+</div>
+{/if}
+
+
+{if $events[ce]->type == 'food' or $events[ce]->type == 'other'}
+<div class="{cycle values="ttelement,ttelementOdd"}">
+<table style="ttsmallelement">
+<tr>
+ <td class="tttimecolumn">
+  <div class="tttimehead">{$events[ce]->when}</div>{if strlen($events[ce]->diff)>0}Start in: {$events[ce]->diff}{/if}
+ </td>
+ <td>
+  <div class="tttimeheadbig">{if $events[ce]->type == 'food'}Food Run{else}Event{/if}</div>
+   <div class="tteventname">{$events[ce]->eventname}</div>
+   {if $events[ce]->allowsignups == '1'}
+     <div style="">{$events[ce]->signups}{if $events[ce]->maxplayers != '0'}/{$events[ce]->maxplayers}{/if} people signed up.</div>
+   {/if}
+      <a href="?page=foodrun&tid={$events[ce]->id}">View Details</a> &nbsp;
+    <a href="?page=ttedit&tid={$events[ce]->id}">Edit</a>
+    
+ </div>
+ </td>
+ <td class="ttusercolumn">
+  {if $events[ce]->userevent == '1'} <strong>This is an user run event!</strong><br />{/if}
+ {if $events[ce]->currentUserSignedUp} <br /><strong>You are signed up to this!</strong><br />{/if}
+ </td>
+ <td class="tticon">
+        <img src = "{$webPath}images/{if $events[ce]->type == 'food'}food.png{else}otherevent.png{/if}" class="tticonimgsmall" alt="Food" />
+ </td>
+</tr>
+</table>
+</div>
+{/if}
+
+
+{if $events[ce]->type == 'day'}
+<div class="{cycle values="ttelement,ttelementOdd"}">
+<table class="ttsmallelement">
+<tr>
+ <td class="tttimecolumn">
+ <div class="tttimeheadbig">{$events[ce]->when}</div>
+ </td>
+ <td>&nbsp;</td>
+ <td>
+     <div class="tttimehead">&nbsp;</div>
+ </div>
+ </td>
+ <td class="ttusercolumn">
+ 
+ </td>
+ <td class="tticon">
+        <img src = "{$webPath}images/moon.png" class="tticonimgsmall"  alt="Day boundry" />
+ </td>
+</tr>
+</table>
+</div>
+
+{/if}
+
+{if $events[ce]->type == 'end' or $events[ce]->type == 'start'}
+<div class="{cycle values="ttelement,ttelementOdd"}">
+<center>
+<table class="ttstartend">
+<tr>
+ <td class="tttimecolumn">
+ <div class="tttimeheadbig">{if $events[ce]->type == 'end'}Event End{else}Event Start{/if}</div>
+ </td>
+ <td>
+     <div class="tttimeheadbig">{$events[ce]->when}</div>
+ </div>
+ </td>
+ <td class="tticon">
+        <img src = "{$webPath}images/{if $events[ce]->type == 'end'}stop{else}start{/if}.png" class="tticonimgsmall" alt="End" />
+ </td>
+</tr>
+</table>
+</div>
+</center>
+{/if}
+  
+  
+  
+{/strip}
+{/section}
+<br />
+<hr />
+

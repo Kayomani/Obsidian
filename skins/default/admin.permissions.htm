@@ -1,0 +1,43 @@
+<ul class="jd_menu jd_menu_slate jd_menu_flag_root">
+		<li><a href="?page=adminmenu">Back to admin menu</a></li>
+</ul>
+
+<h2>Permissions</h2>
+<span style="font-size:1.2em;font-weight:bold">Mode</span>
+<form method="post" action="?page=permissions">
+ <select class="text" id="mode" name="mode">
+   {section name=ce loop=$modelist}
+     <option value="{$modelist[ce]->mode_id}"
+      {if $mode->mode_id == $modelist[ce]->mode_id}selected{/if}>{$modelist[ce]->mode_name}</option>
+   {/section}
+ </select>
+ <input type="submit" name="select" value="Update">
+</form>
+ <br /><br />
+<form method="post" action="?page=permissions">
+
+<input type="hidden" value="{$modelist[ce]->mode_id}" />
+<table>
+<thead>
+<th>Module</th>
+<th>Action</th>
+{section name=ce loop=$grouplist}
+<th>{$grouplist[ce]->group_name}</th>
+{/section}
+</thead>
+<tbody>
+{section name=pl loop=$permissionlist}
+<tr>
+<td>{$permissionlist[pl]->module}</td>
+<td>{$permissionlist[pl]->action}</td>
+
+{section name=ce loop=$grouplist}
+<td><input type="checkbox" name="{$permissionlist[pl]->permission_id}-{$grouplist[ce]->permgroup_id}" value="1"
+{if in_array($grouplist[ce]->permgroup_id, $permissionlist[pl]->disallowed)}checked{/if} /></td>
+{/section}
+</tr>
+{/section}
+</tbody>
+</table>
+<input type="submit" name="update" value="Update">
+</form>

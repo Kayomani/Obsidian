@@ -1,0 +1,11 @@
+<select  class="text" id="lantime_%%ID%%_day" name="lantime_%%ID%%_day">
+   {section name=ce loop=$lantime_%%ID%%_days}
+     <option value="{$lantime_%%ID%%_days[ce]->value}"  {if $lantime_%%ID%%_selectedday == $lantime_%%ID%%_days[ce]->value}selected{/if} >{$lantime_%%ID%%_days[ce]->text}</option>
+   {/section}
+ </select>
+ 
+ <select  class="text" id="lantime_%%ID%%_time" name="lantime_%%ID%%_time">
+   {section name=ce loop=$lantime_%%ID%%_time}
+     <option value="{$lantime_%%ID%%_time[ce]->value}"  {if $lantime_%%ID%%_selectedtime == $lantime_%%ID%%_time[ce]->value}selected{/if} >{$lantime_%%ID%%_time[ce]->text}</option>
+   {/section}
+ </select>

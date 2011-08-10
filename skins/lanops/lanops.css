@@ -1,0 +1,154 @@
+@import "reset.css";
+
+body {
+  background: black;
+  background-image: url("images/bg.gif");
+  font:verdana,tahoma,arial,sans-serif;
+}
+
+
+a:hover, a:focus {
+  color:white;	
+}
+.fullpage {
+  width: 82%;	
+  margin: auto;
+  background-color: #606060;
+  min-height: 800px;
+  margin-top: 30px;
+  border: 3px solid white;
+  
+}
+
+.maincontent{
+ color: white;	
+ padding: 2px;
+}
+
+.header {
+  background: url("images/topback3.jpg") center;
+  height: 180px;
+  position: relative;
+}
+.logoleft {
+  float: left;
+  padding: 10px;
+}
+.logoright {
+}
+
+.menu {
+ 
+}
+
+.menu ul {
+background: url("images/menubar.png");
+display:block;
+height:44px;
+line-height:44px;
+list-style:none outside none;
+margin:0;
+padding-left:0;
+list-style:none outside none;
+}
+
+.menu ul li{
+	background-color:#222222;
+display:inline;
+float:right;
+}
+
+.menu ul li a {
+border-left:1px solid Grey;
+display:block;
+float:left;
+height:44px;
+line-height:44px;
+padding-left:27px;
+padding-right:27px;
+}
+a {
+color:#FFBA00;
+text-decoration:none;
+}
+
+#menubottom {
+background:url("images/topborder.gif") repeat-x scroll 0 0;
+height:14px;
+}
+
+#leftcolumn {
+  float:left;
+padding:2px;
+width:260px;
+}
+
+#contentpane {
+height:100%;
+margin-left: 266px;
+background: #333738;
+padding: 2px;
+min-height:600px;
+}
+
+.block {
+ border: 1px solid black;	
+}
+
+.blocktitle {
+background:url("images/buttons.gif") repeat-x scroll left top #3B83C6;
+border-bottom:1px solid #000000;
+border-top:1px solid #000000;
+color:#F0E80A;
+font-size:11px;
+height:21px;
+overflow:hidden;
+padding:1px;
+text-align:center;
+font-size: 1.0em;
+}
+
+.blockcontent {
+background:url("images/cell.gif") repeat-x scroll left top #313131;
+border-color:#3C3C3C #121212 #131313 #404040;
+border-left:1px solid #404040;
+border-right:1px solid #121212;
+border-style:solid;
+border-width:1px;
+padding:7px;
+padding-top:2px;
+}
+
+#contentpaneheader {
+ background:url("images/topbg.gif");
+ text-align:center;
+ font-size:1.3em;
+}
+
+#contentpanecontent {
+  padding: 5px;
+}
+
+h1, h2,h3,h4,h4 {
+ color: white;
+}
+
+h1 {
+ font-size: 1.5em;
+}
+
+h2 {
+ font-size: 1.3em;
+}
+
+.notice h1, .notice h2 {
+  color: black;
+}
+
+.notice a {
+  color: blue;
+}
+
+fieldset {padding:1.0em;margin:0 0 1.5em 0;border:1px solid #ccc;}
+legend {font-weight:bold;font-size:1.1em;}
+

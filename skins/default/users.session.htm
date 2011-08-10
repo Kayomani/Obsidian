@@ -1,0 +1,24 @@
+<div class = "span-5 box">
+    <div style="font-weight: bold">Login box</div>
+    {if $session.UID == '0'}
+    <form name = "login" action = "?user-session-login=1" method = "post">
+        <input type = "hidden" name = "form" value = "login"/>
+        Username:
+        <input type = "text" name = "user"/>
+        Password:
+        <input type = "password" name = "password"/>
+        <input type = "submit" value = "Login" name = "Login"/>
+        <input type = "submit" value = "Register" name = "Register"/>
+    </form>
+    {else}
+    {if $session.profilepic}
+    <img src="{$session.profilepic}" style="width:32px;height:32px;float:left;margin:5px" />
+    {else}
+    <div style="background-color:darkGray;width:32px;height:32px;float:left;margin:5px"></div>
+    {/if}
+    <div><div style="font-weight: bold;display:inline">User:</div> <a href="?page=profile&uid={$session.UID}">{$session.username}</a></div>
+    <div><div style="font-weight: bold;display:inline">Address:</div> {$loginbox_address}</div>
+   {if !$session.steamprofile}<Br /><div>You have not yet linked a steam profile to your account!</div>{/if} 
+    <div><a href = "?page=editprofile">Edit my Profile</a><div style="float: right"><a href = "?user-session-logout=1">Logout</a></div></div>
+    {/if}
+</div>
